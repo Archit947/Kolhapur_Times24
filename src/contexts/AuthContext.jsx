@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
       if (session?.user) fetchProfile(session.user.id);
       else {
         setProfile(null);
+        sessionStorage.removeItem('admin_profile');
         setLoading(false);
       }
     });
@@ -31,14 +32,28 @@ export function AuthProvider({ children }) {
 
   async function fetchProfile(userId) {
     try {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .single();
-      setProfile(data);
-    } catch {
-      // profile may not exist yet
+
+      if (error) {
+        console.error('[AuthContext] fetchProfile error:', error.message, '| code:', error.code);
+        // RLS may be blocking — fall back to cached profile if available
+        const cached = sessionStorage.getItem('admin_profile');
+        if (cached) {
+          console.warn('[AuthContext] Using cached profile due to fetch error');
+          setProfile(JSON.parse(cached));
+          return;
+        }
+      } else {
+        setProfile(data);
+        // Cache profile so page refresh doesn't lose admin state
+        sessionStorage.setItem('admin_profile', JSON.stringify(data));
+      }
+    } catch (err) {
+      console.error('[AuthContext] fetchProfile exception:', err);
     } finally {
       setLoading(false);
     }
@@ -51,6 +66,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
+    sessionStorage.removeItem('admin_profile');
     await supabase.auth.signOut();
   }
 
