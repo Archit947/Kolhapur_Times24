@@ -7,16 +7,15 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) fetchProfile(session.user.id);
       else setLoading(false);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) fetchProfile(session.user.id);
@@ -31,35 +30,34 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function fetchProfile(userId) {
+    if (signingOut) return;
     try {
       const { data, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
-        .maybeSingle();  // maybeSingle returns null (not error) when 0 rows found
+        .maybeSingle();
 
       if (error) {
         console.error('[AuthContext] fetchProfile error:', error.message, '| code:', error.code);
-        // Fall back to cached profile if available
         const cached = sessionStorage.getItem('admin_profile');
         if (cached) {
           const cachedProfile = JSON.parse(cached);
-          // Only use cache if the userId matches (prevent stale session reuse)
           if (cachedProfile.id === userId) {
-            console.warn('[AuthContext] Using cached profile due to fetch error');
             setProfile(cachedProfile);
             return;
           }
         }
       } else if (data) {
         setProfile(data);
-        // Cache profile so page refresh doesn't lose admin state
         sessionStorage.setItem('admin_profile', JSON.stringify(data));
       } else {
-        // data is null — user row doesn't exist (stale/orphaned session)
-        console.warn('[AuthContext] No profile row found for user:', userId, '— signing out stale session');
+        console.warn('[AuthContext] No profile row for user:', userId);
+        setSigningOut(true);
         sessionStorage.removeItem('admin_profile');
-        await supabase.auth.signOut();
+        setProfile(null);
+        setUser(null);
+        await supabase.auth.signOut({ scope: 'local' });
       }
     } catch (err) {
       console.error('[AuthContext] fetchProfile exception:', err);
@@ -76,7 +74,7 @@ export function AuthProvider({ children }) {
 
   async function signOut() {
     sessionStorage.removeItem('admin_profile');
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: 'local' });
   }
 
   const isAdmin = profile?.role === 'admin';
