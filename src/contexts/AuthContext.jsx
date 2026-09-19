@@ -36,21 +36,30 @@ export function AuthProvider({ children }) {
         .from('users')
         .select('*')
         .eq('id', userId)
-        .single();
+        .maybeSingle();  // maybeSingle returns null (not error) when 0 rows found
 
       if (error) {
         console.error('[AuthContext] fetchProfile error:', error.message, '| code:', error.code);
-        // RLS may be blocking — fall back to cached profile if available
+        // Fall back to cached profile if available
         const cached = sessionStorage.getItem('admin_profile');
         if (cached) {
-          console.warn('[AuthContext] Using cached profile due to fetch error');
-          setProfile(JSON.parse(cached));
-          return;
+          const cachedProfile = JSON.parse(cached);
+          // Only use cache if the userId matches (prevent stale session reuse)
+          if (cachedProfile.id === userId) {
+            console.warn('[AuthContext] Using cached profile due to fetch error');
+            setProfile(cachedProfile);
+            return;
+          }
         }
-      } else {
+      } else if (data) {
         setProfile(data);
         // Cache profile so page refresh doesn't lose admin state
         sessionStorage.setItem('admin_profile', JSON.stringify(data));
+      } else {
+        // data is null — user row doesn't exist (stale/orphaned session)
+        console.warn('[AuthContext] No profile row found for user:', userId, '— signing out stale session');
+        sessionStorage.removeItem('admin_profile');
+        await supabase.auth.signOut();
       }
     } catch (err) {
       console.error('[AuthContext] fetchProfile exception:', err);
