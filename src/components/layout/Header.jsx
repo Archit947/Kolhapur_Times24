@@ -7,7 +7,7 @@ import { useCategories } from '../../hooks/useCategories';
 import SearchModal from '../ui/SearchModal';
 import BreakingTicker from '../ui/BreakingTicker';
 import { format } from 'date-fns';
-import logoImg from '../../assets/kopmaza.png';
+import logoImg from '../../assets/kolhapurtimes24.jpeg';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
@@ -59,7 +59,7 @@ export default function Header() {
         <div className="container mx-auto px-4 flex items-center justify-between h-25">
           {/* Logo */}
           <Link to="/" className="mt-4">
-            <img src={logoImg} alt="KopMaza Logo" className="w-40 h-40" />
+            <img src={logoImg} alt="Kolhapur_Times24 Logo" className="w-30 h-20" />
             <div>
               {/* <span className="text-2xl font-black text-red-700 leading-none">KopMaza</span>
               <p className="text-xs text-gray-500 dark:text-gray-400 leading-none">News Portal</p> */}
@@ -102,46 +102,12 @@ export default function Header() {
       {/* Navigation + Breaking Ticker — sticky together */}
       <div className="sticky top-0 z-50">
         <BreakingTicker />
-      <nav className="bg-red-700">
-        <div className="container mx-auto px-4">
-          {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-0 overflow-x-auto no-scrollbar whitespace-nowrap">
-            <li>
-              <Link to="/" className="block px-4 py-3 text-white text-sm font-semibold hover:bg-red-800 transition-colors">
-                Home
-              </Link>
-            </li>
-            {categories.map(cat => (
-              <li key={cat.id}>
-                <Link
-                  to={`/category/${cat.slug}`}
-                  className="block px-4 py-3 text-white text-sm font-semibold hover:bg-red-800 transition-colors"
-                >
-                  {cat.name}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link to="/contact" className="block px-4 py-3 text-white text-sm font-semibold hover:bg-red-800 transition-colors">
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link to="/sports" className="flex items-center gap-1.5 px-4 py-3 text-white text-sm font-bold hover:bg-red-800 transition-colors whitespace-nowrap">
-                🏏 Live Scores
-              </Link>
-            </li>
-          </ul>
-
-          {/* Mobile nav */}
-          {mobileOpen && (
-            <ul className="md:hidden py-2 border-t border-red-600">
+        <nav className="bg-red-700">
+          <div className="container mx-auto px-4">
+            {/* Desktop nav */}
+            <ul className="hidden md:flex items-center gap-0 overflow-x-auto no-scrollbar whitespace-nowrap">
               <li>
-                <Link
-                  to="/"
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-2.5 text-white text-sm font-medium hover:bg-red-800 transition-colors"
-                >
+                <Link to="/" className="block px-4 py-3 text-white text-sm font-semibold hover:bg-red-800 transition-colors">
                   Home
                 </Link>
               </li>
@@ -149,35 +115,69 @@ export default function Header() {
                 <li key={cat.id}>
                   <Link
                     to={`/category/${cat.slug}`}
-                    onClick={() => setMobileOpen(false)}
-                    className="block px-4 py-2.5 text-white text-sm font-medium hover:bg-red-800 transition-colors"
+                    className="block px-4 py-3 text-white text-sm font-semibold hover:bg-red-800 transition-colors"
                   >
                     {cat.name}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link
-                  to="/contact"
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-2.5 text-white text-sm font-medium hover:bg-red-800 transition-colors"
-                >
+                <Link to="/contact" className="block px-4 py-3 text-white text-sm font-semibold hover:bg-red-800 transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/sports"
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-2.5 text-white text-sm font-bold hover:bg-red-800 transition-colors"
-                >
+                <Link to="/sports" className="flex items-center gap-1.5 px-4 py-3 text-white text-sm font-bold hover:bg-red-800 transition-colors whitespace-nowrap">
                   🏏 Live Scores
                 </Link>
               </li>
             </ul>
-          )}
-        </div>
-      </nav>
+
+            {/* Mobile nav */}
+            {mobileOpen && (
+              <ul className="md:hidden py-2 border-t border-red-600">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-4 py-2.5 text-white text-sm font-medium hover:bg-red-800 transition-colors"
+                  >
+                    Home
+                  </Link>
+                </li>
+                {categories.map(cat => (
+                  <li key={cat.id}>
+                    <Link
+                      to={`/category/${cat.slug}`}
+                      onClick={() => setMobileOpen(false)}
+                      className="block px-4 py-2.5 text-white text-sm font-medium hover:bg-red-800 transition-colors"
+                    >
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    to="/contact"
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-4 py-2.5 text-white text-sm font-medium hover:bg-red-800 transition-colors"
+                  >
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/sports"
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-4 py-2.5 text-white text-sm font-bold hover:bg-red-800 transition-colors"
+                  >
+                    🏏 Live Scores
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
+        </nav>
       </div>
 
       {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}

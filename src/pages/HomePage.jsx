@@ -58,8 +58,8 @@ export default function HomePage() {
   return (
     <Layout>
       <SEOHead
-        title="KopMaza News – Latest News & Updates"
-        description="Stay updated with the latest news from KopMaza covering politics, business, technology, sports, and more."
+        title="Kolhapur_Times24 – Latest News & Updates"
+        description="Stay updated with the latest news from Kolhapur_Times24 covering politics, business, technology, sports, and more."
       />
 
       {/* ---- Hero / Featured Section ---- */}

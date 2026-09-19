@@ -4,6 +4,7 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import SEOHead from '../../components/ui/SEOHead';
 import { useAdminNewsList, useDeleteNews } from '../../hooks/useNews';
 import { formatShortDate } from '../../utils/dateFormat';
+import { deleteCloudinaryAsset, extractPublicId } from '../../services/cloudinary';
 import { Plus, Pencil, Trash2, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -16,10 +17,11 @@ export default function ManageNewsPage() {
 
   const totalPages = result ? Math.ceil((result.count || 0) / PAGE_SIZE) : 1;
 
-  async function handleDelete(id, title) {
-    if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
+  async function handleDelete(item) {
+    if (!window.confirm(`Delete "${item.title}"? This cannot be undone.`)) return;
     try {
-      await deleteNews.mutateAsync(id);
+      await deleteNews.mutateAsync(item.id);
+      if (item.featured_image) deleteCloudinaryAsset(extractPublicId(item.featured_image));
       toast.success('Article deleted');
     } catch {
       toast.error('Failed to delete article');
@@ -97,7 +99,7 @@ export default function ManageNewsPage() {
                           <Link to={`/admin/news/edit/${item.id}`} className="text-gray-400 hover:text-blue-600 transition-colors" title="Edit">
                             <Pencil className="w-4 h-4" />
                           </Link>
-                          <button onClick={() => handleDelete(item.id, item.title)} className="text-gray-400 hover:text-red-600 transition-colors" title="Delete">
+                          <button onClick={() => handleDelete(item)} className="text-gray-400 hover:text-red-600 transition-colors" title="Delete">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -147,7 +149,7 @@ export default function ManageNewsPage() {
                       <Link to={`/admin/news/edit/${item.id}`} className="text-gray-400 hover:text-blue-600 transition-colors">
                         <Pencil className="w-4 h-4" />
                       </Link>
-                      <button onClick={() => handleDelete(item.id, item.title)} className="text-gray-400 hover:text-red-600 transition-colors">
+                      <button onClick={() => handleDelete(item)} className="text-gray-400 hover:text-red-600 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>

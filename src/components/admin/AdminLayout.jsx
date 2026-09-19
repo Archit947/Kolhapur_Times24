@@ -7,7 +7,7 @@ import {
   Mail, LogOut, ExternalLink, Menu, X, Sun, Moon
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import logoImg from '../../assets/kopmaza.png';
+import logoImg from '../../assets/kolhapurtimes24.jpeg';
 
 const LINKS = [
   { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -58,9 +58,9 @@ export default function AdminLayout({ children }) {
         {/* Logo */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
           <Link to="/" className="flex items-center gap-2" onClick={closeSidebar}>
-            <img src={logoImg} alt="KopMaza Logo" className="w-8 h-8 object-contain rounded-lg" />
+            <img src={logoImg} alt="Kolhapur_Times24 Logo" className="w-8 h-8 object-contain rounded-lg" />
             <div>
-              <p className="font-black text-gray-900 dark:text-white text-sm leading-none">KopMaza</p>
+              <p className="font-black text-gray-900 dark:text-white text-sm leading-none">Kolhapur_Times24</p>
               <p className="text-xs text-gray-400">CMS Admin</p>
             </div>
           </Link>
@@ -130,8 +130,8 @@ export default function AdminLayout({ children }) {
               <Menu className="w-5 h-5 text-gray-700 dark:text-gray-300" />
             </button>
             <div className="flex items-center gap-2">
-              <img src={logoImg} alt="KopMaza Logo" className="w-7 h-7 object-contain rounded-md" />
-              <span className="font-black text-gray-900 dark:text-white text-sm">KopMaza CMS</span>
+              <img src={logoImg} alt="Kolhapur_Times24 Logo" className="w-7 h-7 object-contain rounded-md" />
+              <span className="font-black text-gray-900 dark:text-white text-sm">Kolhapur_Times24 CMS</span>
             </div>
           </div>
           <button

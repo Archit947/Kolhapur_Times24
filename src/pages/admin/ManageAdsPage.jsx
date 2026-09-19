@@ -2,8 +2,8 @@ import { useState } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import SEOHead from '../../components/ui/SEOHead';
 import { useAllAds, useCreateAd, useUpdateAd, useDeleteAd } from '../../hooks/useAdvertisements';
-import { supabase } from '../../lib/supabase';
 import { compressImage } from '../../utils/imageUtils';
+import { uploadImage, deleteCloudinaryAsset, extractPublicId } from '../../services/cloudinary';
 import { Plus, Pencil, Trash2, X, Check, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -43,11 +43,8 @@ export default function ManageAdsPage() {
     try {
       const compressed = await compressImage(file, { maxWidth: 1200, maxHeight: 800, quality: 0.82, maxSizeKB: 250 });
       toast.loading(`Uploading (${Math.round(compressed.size / 1024)} KB)…`, { id: toastId });
-      const path = `ads/${Date.now()}.jpg`;
-      const { error } = await supabase.storage.from('news-images').upload(path, compressed, { contentType: 'image/jpeg' });
-      if (error) throw error;
-      const { data: { publicUrl } } = supabase.storage.from('news-images').getPublicUrl(path);
-      setForm(f => ({ ...f, image: publicUrl }));
+      const { secure_url } = await uploadImage(compressed, { folder: 'ads' });
+      setForm(f => ({ ...f, image: secure_url }));
       toast.success(`Image uploaded (${Math.round(compressed.size / 1024)} KB)`, { id: toastId });
     } catch (err) {
       toast.error('Upload failed: ' + (err.message || 'Unknown error'), { id: toastId });
@@ -67,9 +64,13 @@ export default function ManageAdsPage() {
     } catch (err) { toast.error(err.message || 'Save failed'); }
   }
 
-  async function handleDelete(id) {
+  async function handleDelete(ad) {
     if (!window.confirm('Delete this ad?')) return;
-    try { await deleteAd.mutateAsync(id); toast.success('Deleted'); }
+    try {
+      await deleteAd.mutateAsync(ad.id);
+      if (ad.image) deleteCloudinaryAsset(extractPublicId(ad.image));
+      toast.success('Deleted');
+    }
     catch { toast.error('Delete failed'); }
   }
 
@@ -193,7 +194,7 @@ export default function ManageAdsPage() {
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3 justify-center">
                       <button onClick={() => openEdit(ad)} className="text-gray-400 hover:text-blue-600"><Pencil className="w-4 h-4" /></button>
-                      <button onClick={() => handleDelete(ad.id)} className="text-gray-400 hover:text-red-600"><Trash2 className="w-4 h-4" /></button>
+                      <button onClick={() => handleDelete(ad)} className="text-gray-400 hover:text-red-600"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   </td>
                 </tr>
@@ -219,7 +220,7 @@ export default function ManageAdsPage() {
               </div>
               <div className="flex items-center gap-3 flex-shrink-0">
                 <button onClick={() => openEdit(ad)} className="text-gray-400 hover:text-blue-600"><Pencil className="w-4 h-4" /></button>
-                <button onClick={() => handleDelete(ad.id)} className="text-gray-400 hover:text-red-600"><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => handleDelete(ad)} className="text-gray-400 hover:text-red-600"><Trash2 className="w-4 h-4" /></button>
               </div>
             </div>
           ))}

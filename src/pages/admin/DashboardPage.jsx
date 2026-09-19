@@ -59,7 +59,7 @@ export default function DashboardPage() {
       <SEOHead title="Admin Dashboard" />
       <div className="mb-6">
         <h1 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-1">Welcome to KopMaza CMS</p>
+        <p className="text-sm text-gray-500 mt-1">Welcome to Kolhapur_Times24 CMS</p>
       </div>
 
       {/* Stats */}

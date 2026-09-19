@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 
 export default function SEOHead({
-  title = 'KopMaza News',
-  description = 'Stay updated with the latest news from KopMaza',
+  title = 'Kolhapur_Times24',
+  description = 'Stay updated with the latest news from Kolhapur_Times24',
   image,
   url,
   type = 'website',
 }) {
-  const siteTitle = 'KopMaza News';
+  const siteTitle = 'Kolhapur_Times24';
   const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
   const canonicalUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
 

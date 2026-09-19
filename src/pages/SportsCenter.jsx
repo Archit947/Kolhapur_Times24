@@ -483,8 +483,8 @@ export default function SportsCenter() {
   return (
     <Layout sidebar={false}>
       <Helmet>
-        <title>Sports Center — Live Scores | KopMaza</title>
-        <meta name="description" content="Live cricket and football scores, fixtures, results and league standings on KopMaza Sports Center." />
+        <title>Sports Center — Live Scores | Kolhapur_Times24</title>
+        <meta name="description" content="Live cricket and football scores, fixtures, results and league standings on Kolhapur_Times24 Sports Center." />
       </Helmet>
 
       {/* ── Immersive Dark Background Wrapper ── */}

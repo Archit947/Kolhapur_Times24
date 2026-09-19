@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaYoutube, FaInstagram } from 'react-icons/fa';
 import { useCategories } from '../../hooks/useCategories';
-import logoImg from '../../assets/kopmaza.png';
+import logoImg from '../../assets/kolhapurtimes24.jpeg';
 
 export default function Footer() {
   const { data: categories = [] } = useCategories();
@@ -14,7 +14,7 @@ export default function Footer() {
           {/* About */}
           <div>
             <Link to="/" className="inline-block mb-3">
-              <img src={logoImg} alt="KopMaza Logo" className="w-32 h-32 object-contain" />
+              <img src={logoImg} alt="Kolhapur_Times24 Logo" className="w-32 h-32 object-contain" />
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed">
               'कोल्हापूर माझा 'आहे शैक्षणिक,राजकीय, सामाजिक आर्थिक,सांस्कृतिक, खेळ,व्यवसाय गुन्हा, मनोरंजन,शहर,जिल्हा,राज्य व देश पातळीवरील वेध घेणारे न्यूज चॅनल व पोर्टल आहे
@@ -76,7 +76,7 @@ export default function Footer() {
 
       <div className="border-t border-gray-800 py-4">
         <div className="container mx-auto px-4 text-center text-xs text-gray-500">
-          © {year} KopMaza News. All rights reserved. Built with React & Supabase.
+          © {year} Kolhapur_Times24. All rights reserved. Built with React & Supabase.
         </div>
       </div>
     </footer>

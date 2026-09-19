@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
             <span className="text-white font-black text-3xl">K</span>
           </div>
           <h1 className="text-2xl font-black text-gray-900 dark:text-white">Admin Login</h1>
-          <p className="text-gray-500 text-sm mt-1">KopMaza News CMS</p>
+          <p className="text-gray-500 text-sm mt-1">Kolhapur_Times24 CMS</p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">

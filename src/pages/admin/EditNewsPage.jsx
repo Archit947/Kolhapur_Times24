@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { slugify } from '../../utils/slugify';
 import { compressImage } from '../../utils/imageUtils';
+import { uploadImage, uploadVideo, deleteCloudinaryAsset, extractPublicId } from '../../services/cloudinary';
 import toast from 'react-hot-toast';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -164,11 +165,8 @@ function EditorToolbar({ editor }) {
             const toastId = toast.loading('Compressing & uploading image...');
             try {
               const compressed = await compressImage(file);
-              const path = `news/${Date.now()}.jpg`;
-              const { error } = await supabase.storage.from('news-images').upload(path, compressed, { contentType: 'image/jpeg' });
-              if (error) throw error;
-              const { data: { publicUrl } } = supabase.storage.from('news-images').getPublicUrl(path);
-              editor.chain().focus().setImage({ src: publicUrl }).run();
+              const { secure_url } = await uploadImage(compressed, { folder: 'news' });
+              editor.chain().focus().setImage({ src: secure_url }).run();
               toast.success(`Image uploaded (${Math.round(compressed.size / 1024)} KB)`, { id: toastId });
             } catch (err) {
               toast.error('Upload failed', { id: toastId });
@@ -187,14 +185,10 @@ function EditorToolbar({ editor }) {
           onChange={async (e) => {
             const file = e.target.files?.[0];
             if (!file) return;
-            const ext = file.name.split('.').pop();
-            const path = `news/videos/${Date.now()}.${ext}`;
             const toastId = toast.loading('Uploading video...');
             try {
-              const { error } = await supabase.storage.from('news-images').upload(path, file);
-              if (error) throw error;
-              const { data: { publicUrl } } = supabase.storage.from('news-images').getPublicUrl(path);
-              editor.chain().focus().setVideo({ src: publicUrl }).run();
+              const { secure_url } = await uploadVideo(file, { folder: 'news/videos' });
+              editor.chain().focus().setVideo({ src: secure_url }).run();
               toast.success('Video uploaded', { id: toastId });
             } catch (err) {
               toast.error('Upload failed', { id: toastId });
@@ -337,11 +331,12 @@ export default function EditNewsPage() {
       const compressed = await compressImage(file, { maxWidth: 1200, maxHeight: 1200, quality: 0.82, maxSizeKB: 250 });
       toast.loading(`Uploading (${Math.round(compressed.size / 1024)} KB)…`, { id: toastId });
 
-      const path = `news/${Date.now()}.jpg`;
-      const { error } = await supabase.storage.from('news-images').upload(path, compressed, { contentType: 'image/jpeg' });
-      if (error) throw error;
-      const { data: { publicUrl } } = supabase.storage.from('news-images').getPublicUrl(path);
-      setForm(f => ({ ...f, featured_image: publicUrl }));
+      const { secure_url } = await uploadImage(compressed, { folder: 'news' });
+      // Delete the old featured image from Cloudinary when replacing it
+      if (isEdit && form.featured_image) {
+        deleteCloudinaryAsset(extractPublicId(form.featured_image));
+      }
+      setForm(f => ({ ...f, featured_image: secure_url }));
       toast.success(`Image uploaded (${Math.round(compressed.size / 1024)} KB)`, { id: toastId });
     } catch {
       toast.error('Image upload failed', { id: toastId });
