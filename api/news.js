@@ -1,5 +1,5 @@
-const DEFAULT_OG_IMAGE = 'https://kolhapur-maza.vercel.app/og-image.png';
-const SITE_URL = 'https://kolhapur-maza.vercel.app';
+const DEFAULT_OG_IMAGE = 'https://kolhapur-times24.vercel.app/og-image.png';
+const SITE_URL = 'https://kolhapur-times24.vercel.app';
 
 export default async function handler(req, res) {
   const { slug, _direct } = req.query;
