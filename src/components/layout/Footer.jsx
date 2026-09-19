@@ -17,7 +17,7 @@ export default function Footer() {
               <img src={logoImg} alt="Kolhapur_Times24 Logo" className="w-32 h-32 object-contain" />
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed">
-              'कोल्हापूर माझा 'आहे शैक्षणिक,राजकीय, सामाजिक आर्थिक,सांस्कृतिक, खेळ,व्यवसाय गुन्हा, मनोरंजन,शहर,जिल्हा,राज्य व देश पातळीवरील वेध घेणारे न्यूज चॅनल व पोर्टल आहे
+              'कोल्हापूर Times24' आहे शैक्षणिक,राजकीय, सामाजिक आर्थिक,सांस्कृतिक, खेळ,व्यवसाय गुन्हा, मनोरंजन,शहर,जिल्हा,राज्य व देश पातळीवरील वेध घेणारे न्यूज चॅनल व पोर्टल आहे
             </p>
             <div className="flex gap-3 mt-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-400 hover:text-blue-400 transition-colors"><FaFacebook size={18} /></a>
