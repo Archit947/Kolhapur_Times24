@@ -2,8 +2,12 @@
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,41 +19,58 @@
   .btn-primary {
     @apply bg-red-700 hover:bg-red-800 text-white font-semibold px-4 py-2 rounded transition-colors duration-200 cursor-pointer;
   }
+
   .btn-outline {
     @apply border border-red-700 text-red-700 hover:bg-red-700 hover:text-white font-semibold px-4 py-2 rounded transition-colors duration-200 cursor-pointer;
   }
+
   .news-card {
     @apply bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300;
   }
+
   .section-title {
     @apply text-xl font-bold text-gray-900 dark:text-white border-l-4 border-red-700 pl-3 mb-5;
   }
+
   .category-badge {
     @apply inline-block bg-red-700 text-white text-xs font-semibold px-2 py-0.5 rounded uppercase tracking-wider;
   }
+
   .skeleton {
     @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
   }
+
   .admin-sidebar-link {
     @apply flex items-center gap-3 px-4 py-2.5 text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-gray-700 hover:text-red-700 rounded-lg transition-colors duration-200 text-sm font-medium;
   }
+
   .admin-sidebar-link.active {
     @apply bg-red-700 text-white hover:bg-red-800 hover:text-white;
   }
 }
 
 @keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
 .ticker-track {
   display: flex;
   flex-wrap: nowrap;
   width: max-content;
-  animation: ticker-scroll 30s linear infinite;
+  animation: ticker-scroll 10s linear infinite;
   will-change: transform;
 }
-.ticker-track:hover { animation-play-state: paused; }
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
 .ticker-item {
   white-space: nowrap;
   display: inline-flex;
@@ -60,16 +81,27 @@
   padding: 0 0.5rem;
   gap: 0;
 }
-.ticker-item:hover { text-decoration: underline; }
+
+.ticker-item:hover {
+  text-decoration: underline;
+}
+
 .ticker-dot {
   margin: 0 0.75rem;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.5rem;
 }
 
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-thumb { background: #b91c1c; border-radius: 3px; }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b91c1c;
+  border-radius: 3px;
+}
 
 /* Allow inline color styles on bold text to override prose typography */
 .prose strong,
@@ -83,11 +115,9 @@
 
 /* Glassmorphism card used for all sports match cards */
 .sports-glass-card {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.04) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.02) 100%);
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 1rem;
   padding: 1rem;
@@ -97,6 +127,11 @@
 }
 
 /* Hide scrollbar for filter pills and trending strip */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

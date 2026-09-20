@@ -12,7 +12,8 @@ import HomePage from './pages/HomePage';
 import NewsDetailPage from './pages/NewsDetailPage';
 import CategoryPage from './pages/CategoryPage';
 import SearchPage from './pages/SearchPage';
-import ContactPage from './pages/ContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
 import { lazy, Suspense } from 'react';
 
 const SportsCenter = lazy(() => import('./pages/SportsCenter'));
@@ -51,7 +52,8 @@ export default function App() {
                 <Route path="/news/:slug" element={<NewsDetailPage />} />
                 <Route path="/category/:slug" element={<CategoryPage />} />
                 <Route path="/search" element={<SearchPage />} />
-                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms" element={<TermsOfServicePage />} />
                 <Route path="/sports" element={
                   <Suspense fallback={<div className="min-h-screen bg-gray-950" />}>
                     <SportsCenter />

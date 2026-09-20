@@ -18,7 +18,6 @@ const NAV_LINKS = [
   { label: 'Entertainment', path: '/category/entertainment' },
   { label: 'Health', path: '/category/health' },
   { label: 'Education', path: '/category/education' },
-  { label: 'Contact', path: '/contact' },
 ];
 
 export default function Header() {
@@ -122,11 +121,6 @@ export default function Header() {
                 </li>
               ))}
               <li>
-                <Link to="/contact" className="block px-4 py-3 text-white text-sm font-semibold hover:bg-red-800 transition-colors">
-                  Contact
-                </Link>
-              </li>
-              <li>
                 <Link to="/sports" className="flex items-center gap-1.5 px-4 py-3 text-white text-sm font-bold hover:bg-red-800 transition-colors whitespace-nowrap">
                   🏏 Live Scores
                 </Link>
@@ -156,15 +150,6 @@ export default function Header() {
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <Link
-                    to="/contact"
-                    onClick={() => setMobileOpen(false)}
-                    className="block px-4 py-2.5 text-white text-sm font-medium hover:bg-red-800 transition-colors"
-                  >
-                    Contact
-                  </Link>
-                </li>
                 <li>
                   <Link
                     to="/sports"

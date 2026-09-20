@@ -22,7 +22,7 @@ export default function Footer() {
             <div className="flex gap-3 mt-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-400 hover:text-blue-400 transition-colors"><FaFacebook size={18} /></a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-gray-400 hover:text-sky-400 transition-colors"><FaTwitter size={18} /></a>
-              <a href="https://www.youtube.com/@KOPMAZA" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-gray-400 hover:text-red-500 transition-colors"><FaYoutube size={18} /></a>
+              <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-gray-400 hover:text-red-500 transition-colors"><FaYoutube size={18} /></a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-400 hover:text-pink-400 transition-colors"><FaInstagram size={18} /></a>
             </div>
           </div>
@@ -49,7 +49,6 @@ export default function Footer() {
               {[
                 { label: 'Home', path: '/' },
                 { label: 'Latest News', path: '/search?q=' },
-                { label: 'Contact Us', path: '/contact' },
                 { label: 'Privacy Policy', path: '/privacy' },
                 { label: 'Terms of Service', path: '/terms' },
               ].map(link => (
@@ -66,8 +65,8 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold mb-3 text-sm uppercase tracking-wider border-b border-gray-700 pb-2">Contact</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li>संपादक : राजेंद्र तुकाराम कोरे</li>
-              <li>📞 +91 9595329596</li>
+              <li>संपादक :डी एस फाळके </li>
+              <li>📞 +91 9921410211</li>
               <li>📍 Kolhapur, Maharashtra, India</li>
             </ul>
           </div>
@@ -76,7 +75,7 @@ export default function Footer() {
 
       <div className="border-t border-gray-800 py-4">
         <div className="container mx-auto px-4 text-center text-xs text-gray-500">
-          © {year} Kolhapur_Times24. All rights reserved. Built with React & Supabase.
+          © {year} Kolhapur_Times24. All rights reserved.
         </div>
       </div>
     </footer>
