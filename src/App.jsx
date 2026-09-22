@@ -18,15 +18,15 @@ import { lazy, Suspense } from 'react';
 
 const SportsCenter = lazy(() => import('./pages/SportsCenter'));
 
-// Admin pages
-import AdminLoginPage from './pages/admin/AdminLoginPage';
-import DashboardPage from './pages/admin/DashboardPage';
-import ManageNewsPage from './pages/admin/ManageNewsPage';
-import EditNewsPage from './pages/admin/EditNewsPage';
-import ManageCategoriesPage from './pages/admin/ManageCategoriesPage';
-import ManageAuthorsPage from './pages/admin/ManageAuthorsPage';
-import ManageAdsPage from './pages/admin/ManageAdsPage';
-import SubscribersPage from './pages/admin/SubscribersPage';
+// Admin pages — lazy loaded so the TipTap editor bundle isn't shipped to public visitors
+const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
+const DashboardPage = lazy(() => import('./pages/admin/DashboardPage'));
+const ManageNewsPage = lazy(() => import('./pages/admin/ManageNewsPage'));
+const EditNewsPage = lazy(() => import('./pages/admin/EditNewsPage'));
+const ManageCategoriesPage = lazy(() => import('./pages/admin/ManageCategoriesPage'));
+const ManageAuthorsPage = lazy(() => import('./pages/admin/ManageAuthorsPage'));
+const ManageAdsPage = lazy(() => import('./pages/admin/ManageAdsPage'));
+const SubscribersPage = lazy(() => import('./pages/admin/SubscribersPage'));
 
 function NotFound() {
   return (
@@ -61,45 +61,65 @@ export default function App() {
                 } />
 
                 {/* Admin */}
-                <Route path="/admin" element={<AdminLoginPage />} />
+                <Route path="/admin" element={
+                  <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                    <AdminLoginPage />
+                  </Suspense>
+                } />
                 <Route path="/admin/dashboard" element={
                   <ProtectedRoute adminOnly>
-                    <DashboardPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <DashboardPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/news" element={
                   <ProtectedRoute adminOnly>
-                    <ManageNewsPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <ManageNewsPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/news/create" element={
                   <ProtectedRoute adminOnly>
-                    <EditNewsPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <EditNewsPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/news/edit/:id" element={
                   <ProtectedRoute adminOnly>
-                    <EditNewsPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <EditNewsPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/categories" element={
                   <ProtectedRoute adminOnly>
-                    <ManageCategoriesPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <ManageCategoriesPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/authors" element={
                   <ProtectedRoute adminOnly>
-                    <ManageAuthorsPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <ManageAuthorsPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/advertisements" element={
                   <ProtectedRoute adminOnly>
-                    <ManageAdsPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <ManageAdsPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/subscribers" element={
                   <ProtectedRoute adminOnly>
-                    <SubscribersPage />
+                    <Suspense fallback={<div className="min-h-screen bg-gray-100 dark:bg-gray-950" />}>
+                      <SubscribersPage />
+                    </Suspense>
                   </ProtectedRoute>
                 } />
 

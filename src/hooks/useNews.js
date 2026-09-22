@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 
@@ -74,24 +75,17 @@ export function useBreakingNews() {
   });
 }
 
-// Fetch news by category slug
+// Fetch news by category slug — single query using the join filter
 export function useNewsByCategory(categorySlug, { limit = 9, page = 1 } = {}) {
   return useQuery({
     queryKey: ['news', 'category', categorySlug, limit, page],
     queryFn: async () => {
-      const { data: cat } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('slug', categorySlug)
-        .single();
-
-      if (!cat) return { data: [], count: 0 };
-
       const { data, error, count } = await supabase
         .from('news')
         .select(NEWS_SELECT, { count: 'exact' })
         .eq('status', 'published')
-        .eq('category_id', cat.id)
+        .eq('categories.slug', categorySlug)
+        .not('categories', 'is', null)
         .order('created_at', { ascending: false })
         .range((page - 1) * limit, page * limit - 1);
 
@@ -107,7 +101,8 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 // Fetch single news by slug (or ID for articles with empty slugs)
 export function useNewsDetail(slug) {
-  return useQuery({
+  const viewCounted = useRef(false);
+  const result = useQuery({
     queryKey: ['news', 'detail', slug],
     queryFn: async () => {
       const isId = UUID_RE.test(slug);
@@ -117,14 +112,19 @@ export function useNewsDetail(slug) {
         .eq(isId ? 'id' : 'slug', slug)
         .single();
       if (error) throw error;
-
-      // Increment view count (fire and forget — don't let errors bubble up)
-      supabase.rpc('increment_views', { news_id: data.id }).then(() => {}, () => {});
-
       return data;
     },
     enabled: !!slug,
   });
+
+  useEffect(() => {
+    if (result.data?.id && !viewCounted.current) {
+      viewCounted.current = true;
+      supabase.rpc('increment_views', { news_id: result.data.id }).then(() => {}, () => {});
+    }
+  }, [result.data?.id]);
+
+  return result;
 }
 
 // Related news
@@ -209,7 +209,10 @@ export function useCreateNews() {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['news'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['news'] });
+      qc.invalidateQueries({ queryKey: ['admin'] });
+    },
   });
 }
 
@@ -221,7 +224,10 @@ export function useUpdateNews() {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['news'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['news'] });
+      qc.invalidateQueries({ queryKey: ['admin'] });
+    },
   });
 }
 
@@ -232,7 +238,10 @@ export function useDeleteNews() {
       const { error } = await supabase.from('news').delete().eq('id', id);
       if (error) throw error;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['news'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['news'] });
+      qc.invalidateQueries({ queryKey: ['admin'] });
+    },
   });
 }
 
