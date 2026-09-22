@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   const supabaseUrl = process.env.VITE_SUPABASE_URL;
   const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
-  let title = 'KopMaza News';
+  let title = 'Kolhapur Times24';
   let description = 'कोल्हापूर माझा - शैक्षणिक, राजकीय, सामाजिक बातम्या';
   let image = DEFAULT_OG_IMAGE;
   let imageType = 'image/png';
@@ -82,7 +82,7 @@ export default async function handler(req, res) {
     <meta charset="utf-8">
     <title>${safeTitle}</title>
     <meta name="description" content="${safeDesc}">
-    <meta property="og:site_name" content="KopMaza News">
+    <meta property="og:site_name" content="Kolhapur Times24">
     <meta property="og:type" content="article">
     <meta property="og:title" content="${safeTitle}">
     <meta property="og:description" content="${safeDesc}">
