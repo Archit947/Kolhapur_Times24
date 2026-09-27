@@ -28,7 +28,7 @@ export default async function handler(req, res) {
   const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
   let title = 'Kolhapur Times24';
-  let description = 'कोल्हापूर माझा - शैक्षणिक, राजकीय, सामाजिक बातम्या';
+  let description = 'कोल्हापूर Times24 - शैक्षणिक, राजकीय, सामाजिक बातम्या';
   let image = DEFAULT_OG_IMAGE;
   let imageType = 'image/png';
   const articleUrl = `${SITE_URL}/news/${slug}`;
