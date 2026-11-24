@@ -99,7 +99,7 @@ export default function Header() {
       </header>
 
       {/* Navigation + Breaking Ticker — sticky together */}
-      <div className="sticky top-0 z-50">
+      <div className="sticky top-0 z-100">
         <BreakingTicker />
         <nav className="bg-red-700">
           <div className="container mx-auto px-4">
